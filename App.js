@@ -1,50 +1,23 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Button, TextInput } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
+import StartGameScreen from './screens/StartGameScreen'
+import QuestionScreen from './screens/QuestionScreen'
 
 export default function App() {
-  const [startGameView, setStartGameView] = useState(true);
-  const [playerNameView, setplayerNameView] = useState(true);
-  const [value, onChangeText] = useState('Useless Placeholder');
+  const [gameStarted, setGameStarted] = useState(false);
 
-
-  const startGameViewHandler = () => {
-    setStartGameView(false);
+  const startGameHandler = (boolean) => {
+    setGameStarted(boolean);
   };
+  let content = <StartGameScreen startGameHandler={startGameHandler}/>
 
-  const setplayerNameViewHandler = () => {
-    setplayerNameView(false);
-  };
+  if (gameStarted === true) {
+    content = <QuestionScreen />
+  }
 
   return (
     <View style={styles.container}>
-      {startGameView ? (
-        <View>
-          <View style={styles.headingContainer}>
-            <Text style={styles.heading}>Kärppä Quiz</Text>
-          </View>
-          <View style={styles.buttonContainer}>
-            <Button
-              style={styles.startButton}
-              title="Aloita peli"
-              onPress={startGameViewHandler}
-            />
-          </View>
-        </View>
-      ) : (
-        <View>
-          <Text style={styles.heading}>Anna pelaajan nimi</Text>
-          <TextInput
-            style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
-            onChangeText={text => onChangeText(text)}
-            value={value}
-          />
-           <Button
-              style={styles.startButton}
-              title="Pelaamaan"
-              onPress={setplayerNameView}
-            />
-        </View>
-      )}
+      {content}
     </View>
   );
 }
@@ -56,13 +29,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center"
-  },
-  headingContainer: {
-    marginBottom: 20
-  },
-  heading: {
-    fontSize: 36,
-    fontWeight: "bold"
-  },
-  buttonContainer: {}
+  }
 });
